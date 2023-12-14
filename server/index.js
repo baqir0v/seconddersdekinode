@@ -5,7 +5,12 @@ import mongoose from "mongoose";
 
 const app = express()
 dotenv.config()
+
+app.use(cors())
+app.use(express.json())
+
 const { Schema } = mongoose
+
 
 const userSchema = new Schema({
     name: { type: String, required: true },
@@ -16,8 +21,6 @@ const userSchema = new Schema({
 
 const Users = mongoose.model("users", userSchema)
 
-app.use(cors())
-app.use(express.json())
 
 app.get("/users", async (req, res) => {
     try {
@@ -44,13 +47,14 @@ app.delete("/users/:id", async (req, res) => {
     }
 })
 app.post("/users", (req, res) => {
-    const newUser = new Users({
-        name: req.body.name,
-        surname: req.body.surname,
-        age: req.body.age,
-        image: req.body.image
-        //...req
-    })
+    {
+        // name: req.body.name,
+        // surname: req.body.surname,
+        // age: req.body.age,
+        // image: req.body.image
+        // //...req
+    }
+    const newUser = new Users.create(req.body)
     newUser.save()
     res.send({ message: "User Created" })
 })
